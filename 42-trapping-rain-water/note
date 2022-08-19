@@ -1,0 +1,4 @@
+If we use vector it will give out og=f bound error
+
+TC=O(N);
+SC=O(N);
