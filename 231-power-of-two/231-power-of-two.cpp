@@ -1,8 +1,12 @@
 class Solution {
 public:
     bool isPowerOfTwo(int n) {
-       // cout<<ceil(log2(16))<<" "<<floor(log2(16));
-        if(n==0) return false;
-        else  return (ceil(log2(n))==floor(log2(n)))?1:0;
+         if(n==0) return false;
+        
+          if(n<0) {return false;}
+         else
+         {
+             return (!(n&(n-1)))?1:0;
+         }
     }
 };
