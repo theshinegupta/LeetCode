@@ -15,14 +15,13 @@ public:
         
         if(root==NULL) return true;
         
-        if(!isBalanced(root->left) || !isBalanced(root->right)) return false;
-        else
-        {
-            int lh=height(root->left);
-            int rh=height(root->right);
-            
-            return ((max(lh,rh)-min(lh,rh))>1)?false:true;
-        }
+         int lh=height(root->left);
+         int rh=height(root->right);
+        
+        if(abs(lh-rh)>1) return false;
+        else return ( isBalanced(root->left) && isBalanced(root->right));
+        
+        
         
     }
     
