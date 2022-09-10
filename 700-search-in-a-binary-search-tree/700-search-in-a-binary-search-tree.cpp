@@ -14,28 +14,25 @@ public:
     TreeNode* temp;
     TreeNode* searchBST(TreeNode* root, int val) {
         
-       // if(root->left==NULL && root->right==NULL && )
-        temp=NULL;
-        search(root,val);
+       while(root)
+       {
+           
+           if(val==root->val) {return root;}
+           else
+           {
+               if(val<root->val && root->left!=NULL) {root=root->left;}
+               else
+               {
+                   if(val>root->val && root->right!=NULL) {root=root->right;}
+                   else break;
+                 
+               }
+           }
+       }
         
-        return temp;
+        return NULL;
         
     }
 private:
-    void search(TreeNode* root,int val)
-    {
-        
-        if(val<root->val && root->left!=NULL)   {search(root->left,val); }
-        else 
-        {
-            if(val>root->val && root->right!=NULL) {search(root->right,val);}
-            else
-            {
-                if(val==root->val) {temp=root; return;}
-            }
-            
-            
-        }
-             
-    }
+    
 };
