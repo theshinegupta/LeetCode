@@ -11,18 +11,19 @@
  */
 class Solution {
 public:
-    map<int,int> mp;
+   map<int,int> mp;
+   int maxVal=INT_MIN;
     vector<int> findMode(TreeNode* root) {
         vector<int> v;
         
         
-        int maxVal=INT_MIN;
+        
         
         counter(root);
-        for(auto x:mp)
-        {
-            if(x.second>maxVal) maxVal=x.second;
-        }
+        // for(auto x:mp)
+        // {
+        //     if(x.second>maxVal) maxVal=x.second;
+        // }
         
         for(auto x: mp)
         {
@@ -40,10 +41,11 @@ private:
     {
         if(root==NULL) return;
         
-        if(mp.find(root->val)==mp.end()) {mp.insert({root->val,1});}
-        else {mp[root->val]++;}
+        if(mp.find(root->val)==mp.end()) {mp.insert({root->val,1}); maxVal=max(mp[root->val],maxVal);}
+        else {mp[root->val]++; maxVal=max(mp[root->val],maxVal);}
         
         counter(root->left);
         counter(root->right);
     }
+    
 };
