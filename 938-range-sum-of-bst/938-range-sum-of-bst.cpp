@@ -11,25 +11,29 @@
  */
 class Solution {
 public:
+    long long ans=0;
     int rangeSumBST(TreeNode* root, int low, int high) {
         
-        long long ans=findSum(root,low,high,0);
+        inOrder(root,low,high);
         
         return ans;
     }
 private:
-    
-    long long findSum(TreeNode* root,int low,int high,int ans)
+     
+    void inOrder(TreeNode* root,int low,int high)
     {
-        if(root==NULL) return 0;
+        if(root==NULL) return;
         
-        if(root->val>low && root->val<high) {ans+=root->val;}
-        else
+        inOrder(root->left,low,high);
+        
+        if(root->val>=low && root->val<=high)
         {
-            if(root->val==low || root->val==high) {ans+=root->val;}
-            else {ans+=0;}
+            ans+=root->val;
         }
         
-        return  (ans+findSum(root->left,low,high,0)+findSum(root->right,low,high,0));
-        }
+        if(root->val>high) return;
+        
+        inOrder(root->right,low,high);
+        
+    }
 };
