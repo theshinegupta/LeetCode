@@ -20,10 +20,10 @@ private:
          
          if(mp.find(currIdx)!=mp.end()) return mp[currIdx];
          
-         int costOfOneJump=findCost(currIdx+1,cost,mp);
-         int costOfTwoJump=findCost(currIdx+2,cost,mp);
+         int costOfOneJump=cost[currIdx]+ findCost(currIdx+1,cost,mp);
+         int costOfTwoJump=cost[currIdx]+ findCost(currIdx+2,cost,mp);
          
-         int ans=cost[currIdx]+min(costOfOneJump,costOfTwoJump);
+         int ans=min(costOfOneJump,costOfTwoJump);
          
          mp.insert({currIdx,ans});
          
