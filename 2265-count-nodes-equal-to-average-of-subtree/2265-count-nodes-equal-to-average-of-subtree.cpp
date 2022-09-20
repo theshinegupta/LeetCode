@@ -24,31 +24,49 @@ private:
         if(root==NULL) return;
         
         if(root->left==NULL && root->right==NULL) {finalAns++; return;}
-    
         
-        int Sum=findSum(root);
-        int nodes=countNodes(root);
+        int sum=0;
+        int count=0;
         
-        if((Sum/nodes)==root->val) finalAns++;
+        findAvg(root,&sum,&count);
+        
+        if((sum/count)==root->val) finalAns++;
         
         shineSolve(root->left);
         shineSolve(root->right);
     }
        
     
-    int findSum(TreeNode* root)
-        {
-            if(root==NULL) return 0;
+//     int findSum(TreeNode* root)
+//         {
+//             if(root==NULL) return 0;
             
-           return (root->val)+findSum(root->left)+findSum(root->right);
+//            return (root->val)+findSum(root->left)+findSum(root->right);
            
-        }
+//         }
     
     int countNodes(TreeNode* root)
         {
             if(root==NULL) return 0;
             
            return (1+countNodes(root->left)+countNodes(root->right));
+           
+        }
+    
+    void findAvg(TreeNode* root,int *sum,int* count)
+        {
+            if(root==NULL)
+            {
+               return;
+            }
+            
+          *sum+=root->val;
+          *count+=1;
+         
+        findAvg(root->left,sum,count);
+        findAvg(root->right,sum,count);
+         
+        
            
         }
 };
