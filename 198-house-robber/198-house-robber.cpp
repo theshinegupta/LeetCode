@@ -2,25 +2,28 @@ class Solution {
 public:
     int rob(vector<int>& nums) {
         
-        map<int,int> mp;
         
-        return maxMoney(nums,0,mp);
-        
+        return shineSolve(nums);
     }
 private:
-    int maxMoney(vector<int>& nums,int currIdx,map<int,int> & mp)
-    {
-        if(currIdx>=nums.size()) return 0;
-        
-        int currKey=currIdx;
-        
-        if(mp.find(currKey)!=mp.end()) return mp[currKey];
     
-        int rob=nums[currIdx]+maxMoney(nums,currIdx+2,mp);
-        int noRob=maxMoney(nums,currIdx+1,mp);
+    int shineSolve(vector<int>& nums)
+    {
+        if(nums.size()==1) return nums[0];
+        int maxRob=INT_MIN;
         
-        mp.insert({currKey,max(rob,noRob)});
+        int dp[100+1]={0};
+            dp[1]=nums[0];
         
-        return mp[currKey];
+        
+        for(int i=2;i<=nums.size();i++)
+        {
+            dp[i]=max((nums[i-1]+dp[i-2]),dp[i-1]);
+            
+            if(dp[i]>maxRob) maxRob=dp[i];
+        }
+        
+        return maxRob;
+        
     }
 };
