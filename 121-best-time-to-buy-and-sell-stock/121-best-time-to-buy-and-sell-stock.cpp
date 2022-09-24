@@ -1,26 +1,58 @@
 class Solution {
 public:
+    int res=INT_MIN;
     int maxProfit(vector<int>& prices) {
         
-       int n=prices.size(); 
-       int maxProfit=INT_MIN;
-        vector<int> maxVal(n);
+        int n=prices.size();
+        unordered_map<string,int> mp;
+        vector<vector<vector<int>>> dp(n,vector<vector<int>>(2,vector<int> (2,-1)));
+        int res=INT_MIN;
+        return findProfit(prices,0,1,1,mp,dp);
+    }
+    
+private:
+    int findProfit(vector<int>& prices,int currIdx,int canBuy,int tranCount,unordered_map<string,int>& mp, vector<vector<vector<int>>>& dp)
+    {
+        if(tranCount==0) return 0;
+        if(currIdx>=prices.size()) return 0;
         
-        maxVal[n-1]=prices[n-1];
+       // string currKey=to_string(currIdx)+ "-"+ to_string(canBuy) + "-" + to_string(tranCount);
         
-        maxProfit=INT_MIN;
-      
-        for(int i=n-2;i>=0;i--)
+        //if(mp.find(currKey)!=mp.end())  {return mp[currKey];}
+        
+        if(dp[currIdx][canBuy][tranCount]!=-1) return dp[currIdx][canBuy][tranCount];
+        
+        int idle=findProfit(prices,currIdx+1,canBuy,tranCount,mp,dp);
+        
+        
+        int buy=0;
+        int sell=0;
+        if(canBuy)
         {
-            if(prices[i]>maxVal[i+1]) {maxVal[i]=prices[i];}
-            else{ maxVal[i]=maxVal[i+1];}
+            buy=(-prices[currIdx])+findProfit(prices,currIdx+1,0,tranCount,mp,dp);
+            // mp.insert({currKey,max(idle,buy)});
+            //  return mp[currKey];
+            dp[currIdx][canBuy][tranCount]=max(idle,buy);
+            return dp[currIdx][canBuy][tranCount];
             
-            if((maxVal[i]-prices[i])>maxProfit) {maxProfit=(maxVal[i]-prices[i]);}
+           
+        }
+        else
+        {
+            sell=prices[currIdx]+findProfit(prices,currIdx+1,1,tranCount-1,mp,dp);
+             // mp.insert({currKey,max(idle,sell)});
+             // return mp[currKey];
+            dp[currIdx][canBuy][tranCount]=max(idle,sell);
+            return dp[currIdx][canBuy][tranCount];
         }
         
-        if(maxProfit<0) { return 0;}
-        else {return maxProfit;}
-          
+        
+        
+        
+    
+        
+        
+        
         
     }
 };
