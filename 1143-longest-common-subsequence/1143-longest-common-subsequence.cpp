@@ -2,32 +2,34 @@ class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
         
-        vector<vector<int>> dp(text1.size(),vector<int> (text2.size(),-1));
-        return lcs(text1,text2,text1.size()-1,text2.size()-1,dp);
+        vector<vector<int>> dp(text1.size()+1,vector<int> (text2.size()+1,-1));
         
-    }
-private:
-    int lcs(string& text1,string& text2,int m,int n,vector<vector<int>>& dp)
-    {
-        if(m<0 || n<0)
-            return 0;
-        
-        
-        // string currKey=to_string(m)+"-"+to_string(n);
-        if(dp[m][n]!=-1)
-            return dp[m][n];
-        
-        int ans=0;
-        if(text1[m]==text2[n])
+        for(int i=0;i<=text2.size();i++)
         {
-            ans=1+lcs(text1,text2,m-1,n-1,dp);
+            dp[0][i]=0;
         }
-        else
+        for(int p=0;p<=text1.size();p++)
         {
-            ans=max(lcs(text1,text2,m,n-1,dp),lcs(text1,text2,m-1,n,dp));
+            dp[p][0]=0;
         }
         
-        dp[m][n]=ans;
-        return dp[m][n];
+        for(int i=1;i<=text1.size();i++)
+        {
+            for(int j=1;j<=text2.size();j++)
+            {
+                if(text1[i-1]==text2[j-1])
+                {
+                    dp[i][j]=1+dp[i-1][j-1];
+                }
+                else
+                {
+                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        
+        return dp[text1.size()][text2.size()];
+        
+        
     }
 };
