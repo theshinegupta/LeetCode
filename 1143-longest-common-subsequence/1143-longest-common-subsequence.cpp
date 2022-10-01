@@ -2,39 +2,32 @@ class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
         
-        
-        vector<vector<int>> dp(text1.length(),vector<int> (text2.length(),-1));
-        
-        return maxLen(text1,text2,0,0,text1.length(),text2.length(),dp);
+        vector<vector<int>> dp(text1.size(),vector<int> (text2.size(),-1));
+        return lcs(text1,text2,text1.size()-1,text2.size()-1,dp);
         
     }
 private:
-    int maxLen(string& s1,string& s2,int currS1Idx,int currS2Idx,int len1,int len2,vector<vector<int>>& dp)
+    int lcs(string& text1,string& text2,int m,int n,vector<vector<int>>& dp)
     {
-        
-        if(currS1Idx>=len1 || currS2Idx>=len2)
+        if(m<0 || n<0)
             return 0;
         
         
-        // string currKey=to_string(currS1Idx)+"-"+to_string(currS2Idx);
-        if(dp[currS1Idx][currS2Idx]!=-1)
-            return dp[currS1Idx][currS2Idx];
+        // string currKey=to_string(m)+"-"+to_string(n);
+        if(dp[m][n]!=-1)
+            return dp[m][n];
         
-        
-        if(s1[currS1Idx]==s2[currS2Idx])
+        int ans=0;
+        if(text1[m]==text2[n])
         {
-            dp[currS1Idx][currS2Idx]= 1+maxLen(s1,s2,currS1Idx+1,currS2Idx+1,len1,len2,dp);
-            return dp[currS1Idx][currS2Idx];
+            ans=1+lcs(text1,text2,m-1,n-1,dp);
         }
         else
         {
-            int consider1=maxLen(s1,s2,currS1Idx+1,currS2Idx,len1,len2,dp);
-            int consider2=maxLen(s1,s2,currS1Idx,currS2Idx+1,len1,len2,dp);
-            
-            
-            dp[currS1Idx][currS2Idx]= max(consider1,consider2);
-            return dp[currS1Idx][currS2Idx];
+            ans=max(lcs(text1,text2,m,n-1,dp),lcs(text1,text2,m-1,n,dp));
         }
         
+        dp[m][n]=ans;
+        return dp[m][n];
     }
 };
