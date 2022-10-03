@@ -10,7 +10,7 @@ public:
         {
             if(s[i]!=s[j])
             {
-                return (check(s,i) || check(s,j));
+                return (check(s,i+1,j) || check(s,i,j-1));
             }
             i++;
             j--;
@@ -19,15 +19,14 @@ public:
         return true;
     }
 private:
-    bool check(string s,int idx)
+    bool check(string& s,int idx1,int idx2)
     {
-        int i=0;
-        int j=s.size()-1;
+        int i=idx1;
+        int j=idx2;
         
         while(i<j)
         {
-            if(i==idx) {i++; continue;}
-            if(j==idx) {j--; continue;}
+        
             
             if(s[i]!=s[j])
             {return false;}
