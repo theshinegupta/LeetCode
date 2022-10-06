@@ -2,49 +2,41 @@ class Solution {
 public:
     bool canPartition(vector<int>& nums) {
         
-        int target=0;
-        for(auto x: nums)
-        {
-            target+=x;
-        }
-      
-        if(target%2!=0) return false;
-       
-        unordered_map<string,bool> mp;
+        int totalSum=0;
+        for(int i=0;i<nums.size();i++)
+            totalSum+=nums[i];
         
-       vector<vector<int>> dp(nums.size(),vector<int> (target/2+1,INT_MIN));
         
-        if( isPartition(nums,0,target/2,dp)) return true;
+        if(totalSum%2) return false;
+        vector<vector<int>> dp(nums.size(),vector<int> (totalSum/2+1,-1));
+        
+        int ans= isPartition(nums.size()-1,nums,totalSum/2,dp);
+        
+        if(ans) return true;
         else return false;
         
     }
 private:
-    
-    int isPartition(vector<int> nums,int currIdx,int target,vector<vector<int>>& dp)
+    int isPartition(int currIdx,vector<int>& nums,int target,vector<vector<int>>& dp)
     {
+        
         if(target==0) return 1;
+        
+        if(currIdx<0) return 0;
         if(target<0) return 0;
-        if(currIdx>=nums.size()) return 0;
-      
         
-       // string currKey=to_string(currIdx)+ to_string(target);
+        if(dp[currIdx][target]!=-1)
+            return dp[currIdx][target];
         
-        if(dp[currIdx][target]!=INT_MIN) return dp[currIdx][target];
+        int consider=isPartition(currIdx-1,nums,target-nums[currIdx],dp);
+                
+        if(consider)  {dp[currIdx][target]=1; return dp[currIdx][target];}
         
-       // if(mp.find(currKey)!=mp.end()) return mp[currKey];
         
+        int notConsider=isPartition(currIdx-1,nums,target,dp);
         
-        int consider=isPartition(nums,currIdx+1,target-nums[currIdx],dp);
-         
-        int notConsider=0;
-        if(consider==0) notConsider=isPartition(nums,currIdx+1,target,dp);
-         
-      
-        
-       // mp.insert({currKey,(consider || notConsider)});
-        
-        if(consider+notConsider) dp[currIdx][target]=1;
-        else  dp[currIdx][target]=0;
+        if((consider+notConsider))  {dp[currIdx][target]=1;}
+        else {dp[currIdx][target]=0;}
         
         return dp[currIdx][target];
     }
