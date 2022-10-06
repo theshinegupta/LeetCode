@@ -2,27 +2,31 @@ class Solution {
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
         
+        
         unordered_map<string,int> mp;
-        return totalWays(nums,target,0,mp);
+        return totalWays(nums.size()-1,nums,target,mp);
     }
 private:
-
-    int totalWays(vector<int>& nums,int target,int currIdx,unordered_map<string,int>& mp)
+    int totalWays(int currIdx,vector<int>& nums,int target,unordered_map<string,int>& mp)
     {
-        if(currIdx==nums.size())
+        
+        if(currIdx==-1)
         {
             if(target==0) return 1;
-            return 0;
+            else return 0;
         }
         
-        string currKey=to_string(currIdx)+"-"+to_string(target);
+       string currKey=to_string(currIdx)+"-"+to_string(target);
         
-        if(mp.find(currKey)!=mp.end()) return mp[currKey];
+        if(mp.find(currKey)!=mp.end())
+        {
+            return mp[currKey];
+        }
         
-        int pos=totalWays(nums,target-nums[currIdx],currIdx+1,mp);
-        int neg=totalWays(nums,target+nums[currIdx],currIdx+1,mp);
+        int pos=totalWays(currIdx-1,nums,target-nums[currIdx],mp);
+        int neg=totalWays(currIdx-1,nums,target+nums[currIdx],mp);
         
-        mp.insert({currKey,pos+neg});
+        mp.insert({currKey,(pos+neg)});
         
         return mp[currKey];
         
