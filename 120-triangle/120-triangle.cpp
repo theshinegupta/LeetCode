@@ -5,25 +5,28 @@ public:
         int m=triangle.size();
         int n=triangle[m-1].size();
         
-        vector<vector<int>> dp(m,vector<int> (n,100001));
+        vector<int> prev(n,100001);
         
         for(int i=0;i<n;i++)
         {
-            dp[m-1][i]=triangle[m-1][i];
+            prev[i]=triangle[m-1][i];
         }
         
         for(int i=m-2;i>=0;i--)
         {
+            vector<int> cur(n,100001);
+            
             for(int j=0;j<triangle[i].size();j++)
             {
-               int down=triangle[i][j]+dp[i+1][j];
-               int diag=triangle[i][j]+dp[i+1][j+1];
+               int down=triangle[i][j]+prev[j];
+               int diag=triangle[i][j]+prev[j+1];
                 
-               dp[i][j]=min(down,diag);
+               cur[j]=min(down,diag);
             }
+            prev=cur;
         }
         
-        return dp[0][0];
+        return prev[0];
         
     }
 private:
