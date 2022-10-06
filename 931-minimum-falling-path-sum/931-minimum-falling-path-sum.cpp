@@ -6,11 +6,13 @@ public:
         int columnLength=matrix[0].size();
        // cout<<rowLength<<" "<<columnLength;
         
-        vector<vector<int>> dp(rowLength,vector<int>(columnLength,-1));
+        // vector<vector<int>> dp(rowLength,vector<int>(columnLength,-1));
+        
+        vector<int> prev(columnLength,-1);
         
         for(int i=0;i<columnLength;i++)
         {
-            dp[rowLength-1][i]=matrix[rowLength-1][i];
+            prev[i]=matrix[rowLength-1][i];
         }
         
         
@@ -21,6 +23,7 @@ public:
        
         for(int currRow=rowLength-2;currRow>=0;currRow--)
         {
+            vector<int> cur(columnLength,-1);
             for(int currColumn=0;currColumn<columnLength;currColumn++)
                 
             {
@@ -29,21 +32,22 @@ public:
                  int movDown=10001, movDLeft=10001, movDRight=10001;
                 
                   if(currRow+1<rowLength) {
-                                                  movDown=matrix[currRow][currColumn]+findMin(currRow+1,currColumn,matrix,rowLength,columnLength,dp);
-                   if(currColumn-1>=0)            movDLeft=matrix[currRow][currColumn]+findMin(currRow+1,currColumn-1,matrix,rowLength,columnLength,dp);
-                   if(currColumn+1<columnLength)  movDRight=matrix[currRow][currColumn]+findMin(currRow+1,currColumn+1,matrix,rowLength,columnLength,dp);
+                                                  movDown=matrix[currRow][currColumn]+prev[currColumn];
+                   if(currColumn-1>=0)            movDLeft=matrix[currRow][currColumn]+prev[currColumn-1];
+                   if(currColumn+1<columnLength)  movDRight=matrix[currRow][currColumn]+prev[currColumn+1];
                       
-                  dp[currRow][currColumn]=min(min(movDown,movDLeft),movDRight);
+                  cur[currColumn]=min(min(movDown,movDLeft),movDRight);
               }
                 
                 
             }
+            prev=cur;
                 
         }
         
          for(int i=0;i<rowLength;i++)
         {
-            int  temp=dp[0][i];
+            int  temp=prev[i];
             minFall=min(temp,minFall);
         }
         
