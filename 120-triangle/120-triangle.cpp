@@ -7,7 +7,23 @@ public:
         
         vector<vector<int>> dp(m,vector<int> (n,100001));
         
-        return minPathSum(0,0,triangle,m,dp);
+        for(int i=0;i<n;i++)
+        {
+            dp[m-1][i]=triangle[m-1][i];
+        }
+        
+        for(int i=m-2;i>=0;i--)
+        {
+            for(int j=0;j<triangle[i].size();j++)
+            {
+               int down=triangle[i][j]+dp[i+1][j];
+               int diag=triangle[i][j]+dp[i+1][j+1];
+                
+               dp[i][j]=min(down,diag);
+            }
+        }
+        
+        return dp[0][0];
         
     }
 private:
