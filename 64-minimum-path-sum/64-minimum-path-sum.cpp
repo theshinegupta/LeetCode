@@ -6,27 +6,33 @@ public:
         int n=grid[0].size();
         
         
-        vector<vector<int>> dp(m,vector<int> (n,0));
+       vector<int> prev(n,0);
        
-        dp[0][0]=grid[0][0];
-        
-        for(int i=0;i<m;i++)
+        prev[0]=grid[0][0];
+        for(int i=1;i<n;i++)
         {
-            for(int j=0;j<n;j++)
-            {
-               
-                if(i==0 && j==0) continue;
-                
-                int right=10000001, down=10000001;
-                
-                if(j-1>=0) right=grid[i][j]+dp[i][j-1];
-                if(i-1>=0) down=grid[i][j] + dp[i-1][j];
-                    
-                dp[i][j]=min(right,down);
-            }
+            prev[i]=grid[0][i] + prev[i-1];
         }
         
-        return dp[m-1][n-1];
+        
+        
+        for(int i=1;i<m;i++)
+        {
+            vector<int> cur(n,0);
+            for(int j=0;j<n;j++)
+            {
+                
+                int left=10000001, up;
+                
+                if(j-1>=0) left=grid[i][j]+cur[j-1];
+                           up=grid[i][j] + prev[j];
+                    
+                cur[j]=min(left,up);
+            }
+            prev=cur;
+        }
+        
+        return  prev[n-1];
         
     }
 
