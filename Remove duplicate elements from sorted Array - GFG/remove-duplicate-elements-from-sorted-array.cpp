@@ -25,7 +25,7 @@ public:
           {
               ans++;
               i++;
-              swap(a[j],a[i]);
+              swap(a[j],a[ans-1]);
           }
           
       }
