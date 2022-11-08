@@ -8,26 +8,25 @@ public:
         return ans;
         
     }
-void gnSubset(int idx,vector<int> &nums,vector<int> v)
-{
-    if(idx>=nums.size())
+
+    void gnSubset(int idx,vector<int> &nums,vector<int> v)
     {
-        vector<int> temp=v;
-        ans.push_back(temp); 
-        return;}
-    
-    v.push_back(nums[idx]);
-    gnSubset(idx+1,nums,v);
-    v.pop_back();
-    
-    
-    gnSubset(idx+1,nums,v);
-   
-     
-    
-    
-    
-    
-    
-}
+        if(idx>=nums.size())
+        {
+            vector<int> temp=v;
+            ans.push_back(v);
+            return;
+        }
+        
+        
+        gnSubset(idx+1,nums,v);
+        
+        
+        v.push_back(nums[idx]);
+        gnSubset(idx+1,nums,v);
+      //  v.pop_back();
+        
+      
+        
+    }
 };
