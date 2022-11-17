@@ -6,18 +6,7 @@ public:
         if(digits.size()==0)
             return v;
         
-        vector<string> keys;
-        
-        keys.push_back("");
-        keys.push_back("");
-        keys.push_back("abc");
-        keys.push_back("def");
-        keys.push_back("ghi");
-        keys.push_back("jkl");
-        keys.push_back("mno");
-        keys.push_back("pqrs");
-        keys.push_back("tuv");
-        keys.push_back("wxyz");
+        vector<string> keys = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
         
         shineSolve(0,digits,"",v,keys);
         return v;
