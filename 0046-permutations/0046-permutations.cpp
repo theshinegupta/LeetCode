@@ -2,15 +2,8 @@ class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> v;
-        
         shineSolve(0,v,nums);
-        
-        // swap(nums[1],nums[2]);
-        // for(int i=0;i<nums.size();i++)
-        //     cout<<nums[i]<<" ";
-        
         v.push_back(nums);
-        
         return v;
         
     }
