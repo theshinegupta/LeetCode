@@ -89,36 +89,31 @@ complete this function */
 class Solution
 {
     public:
-    
-    bool flag=false;
-    bool hasPathSum(Node *root, int S) {
+    bool hasPathSum(Node *root, int target) {
+       if(root==NULL)
+            return false;
         
-        isPath(root,0,S);
-        
-        return flag;
-    
+        if(root->left==NULL && root->right==NULL)
+        {
+            return (root->data==target);
+        }
+       
+        return findSum(root->left,root->data,target) || findSum(root->right,root->data,target);
 }
 
-void isPath(Node* root,int sum,int S)
+bool findSum(Node* root,long long currVal,int target)
 {
+    if(root==NULL)
+        return false;
     
     if(root->left==NULL && root->right==NULL)
     {
-        sum+=root->data;
-        
-        if(S==sum)
-        {
-            flag=true;
-        }
-        
-        return;
+        long long temp=currVal+root->data;
+        return (temp==target);
     }
     
     
-    sum+=root->data;
-    
-    if(root->left!=NULL ) isPath(root->left,sum,S);
-    if(root->right!=NULL )isPath(root->right,sum,S);
+    return findSum(root->left,currVal+root->data,target) || findSum(root->right,currVal+root->data,target);
 }
 };
 
