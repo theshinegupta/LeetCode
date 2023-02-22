@@ -13,6 +13,7 @@ public:
             if(letters[mid]==target)
             {
                 start=mid+1;
+                continue;
             }
             if(letters[mid]-target>0)
             {
