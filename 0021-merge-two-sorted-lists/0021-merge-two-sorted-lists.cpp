@@ -15,9 +15,9 @@ public:
         if(l1==NULL || l2==NULL)
             return  (l1==NULL)?l2:l1;
         
+        ListNode* curr=(l1->val<l2->val)?l1:l2;
         
-        
-            ListNode* curr=(l1->val<l2->val)?l1:l2;
+           
             if(curr==l1)
             {
                 l1=l1->next;
