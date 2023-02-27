@@ -177,8 +177,8 @@ if(root->next==NULL)
        
     }
     
-     if(nxt==NULL)
-       return temp1;
+
+    return temp1;
    
    
    
