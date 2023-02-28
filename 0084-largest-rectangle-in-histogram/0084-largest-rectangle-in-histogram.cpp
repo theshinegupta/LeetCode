@@ -3,8 +3,7 @@ public:
     int largestRectangleArea(vector<int>& heights) {
         
         int n=heights.size();
-        vector<int> rightMax(n);
-        vector<int> leftMax(n);
+        vector<int> maxArray(n);
         
         stack<pair<int,int>> sR,sL;
         
@@ -19,7 +18,7 @@ public:
                 sR.pop();
             }
             
-            rightMax[i]=count;
+            maxArray[i]=count;
             sR.push({heights[i],count});
         }
         
@@ -33,7 +32,7 @@ public:
                 sL.pop();
             }
             
-            leftMax[i]=count;
+            maxArray[i]+=count;
             sL.push({heights[i],count});
         }
         
@@ -42,7 +41,7 @@ public:
         
         for(int i=0;i<n;i++)
         {
-            int temp=(leftMax[i]+rightMax[i])*heights[i]+heights[i];
+            int temp=(maxArray[i])*heights[i]+heights[i];
             res=max(temp,res);
         }
         
