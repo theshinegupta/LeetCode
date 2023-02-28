@@ -1,41 +1,40 @@
 class Solution {
 public:
-    vector<vector<int>> combinationSum(vector<int>& nums, int target) {
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         
+        vector<vector<int>> res;
+        sort(candidates.begin(),candidates.end());
         vector<int> v;
-        vector<vector<int>> ans;
         
-        gnComb(0,nums,v,target,ans);
+         shineSolve(candidates,target,0,0,res,v);
         
-        return ans;
-        
+        return res;
     }
     
-void gnComb(int idx,vector<int> &nums,vector<int> v,int target,vector<vector<int>> &ans)
+void shineSolve(vector<int>& candidates,int target, int currIdx,int currSum,vector<vector<int>>& res,vector<int>&v)
 {
-    
-    
-    if(idx>=nums.size())
+    if(currIdx==candidates.size())
     {
         return;
     }
     
-    if(target==0)
+    if(currSum>target)
+        return;
+    
+    
+    if(currSum==target)
     {
-        ans.push_back(v);
+        res.push_back(v);
         return;
     }
     
     
     
+    shineSolve(candidates,target,currIdx+1,currSum,res,v);
     
     
-    
-    v.push_back(nums[idx]);
-     if(target>=nums[idx]) gnComb(idx,nums,v,target-nums[idx],ans);
+    v.push_back(candidates[currIdx]);
+    shineSolve(candidates,target,currIdx,currSum+candidates[currIdx],res,v);
     v.pop_back();
-    
-    gnComb(idx+1,nums,v,target,ans);
-        
 }
 };
