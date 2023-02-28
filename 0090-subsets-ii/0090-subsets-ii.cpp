@@ -1,53 +1,39 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
-    map<vector<int>,int> mp;
+    set<vector<int>> s;
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        
-        vector<int> nums1;
-        sort(nums.begin(),nums.end());
-        
-        
-        
-//         for(int i=0;i<nums.size();i++)
-//         {
-//             if(mp[nums[i]]==0)
-//             {
-//                 mp[nums[i]]++;
-//                 nums1.push_back(nums[i]);
-//             }
-//         }
-        
+        vector<vector<int>> res;
         vector<int> v;
-        gnSubset(0,nums,v);
-        return ans;
+        sort(nums.begin(),nums.end());
+        shineSolve(nums,0,v,res);
         
         
-        
+        return res;
     }
-
-    void gnSubset(int idx,vector<int> &nums,vector<int> v)
+    
+void shineSolve(vector<int>& nums,int currIdx,vector<int>& v ,vector<vector<int>>& res)
+{
+    if(currIdx==nums.size())
     {
-        if(idx>=nums.size())
+        if(s.find(v)==s.end())
         {
-            if(mp.find(v)==mp.end())
-            {
-                mp[v]++;
-                ans.push_back(v);
-            }
-            
-            return;
-        }
-        
-        
-        gnSubset(idx+1,nums,v);
-        
-        
-        v.push_back(nums[idx]);
-        gnSubset(idx+1,nums,v);
-      //  v.pop_back();
-        
-      
-        
+           s.insert(v); 
+           res.emplace_back(v);
+        } 
+             
+        return;
     }
+    
+    
+    
+    shineSolve(nums,currIdx+1,v,res);
+    
+    v.emplace_back(nums[currIdx]);
+    shineSolve(nums,currIdx+1,v,res);
+    v.pop_back();
+}
+    
+    
+    
+   
 };
