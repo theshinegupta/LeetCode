@@ -19,14 +19,56 @@ class Solution {
             
         }
         
-        sort(arr,arr+n);
+        long long firstMax=arr[0];
+        long long secondMax=INT_MIN+10;
+        long long thirdMax=INT_MIN;
+        long long smallestEle=arr[0];
+        long long secondSmallEle=INT_MAX;
         
-        long long maxProduct=arr[n-1]*arr[n-2]*arr[n-3];
-    	long long tempProduct=0;
-    	
-    	
-    	tempProduct=arr[0]*arr[1]*arr[n-1];
-    	return max(maxProduct,tempProduct);
+        
+        for(int i=1;i<n;i++)
+        {
+            if(arr[i]>firstMax)
+            {
+                thirdMax=secondMax;
+                secondMax=firstMax;
+                firstMax=arr[i];
+            
+            }
+            else
+            {
+                if(arr[i]>secondMax)
+                {
+                    thirdMax=secondMax;
+                    secondMax=arr[i];
+                }
+                else
+                {
+                    if(arr[i]>thirdMax)
+                      thirdMax=arr[i];
+                }
+            }
+            
+            if(arr[i]<smallestEle)
+            {
+                secondSmallEle=smallestEle;
+                smallestEle=arr[i];
+            }
+            else
+            {
+                if(arr[i]<secondSmallEle)
+                  secondSmallEle=arr[i];
+            }
+            
+            
+        }
+        
+        // sort(arr,arr+n);
+        // cout<<arr[0]<<" "<<arr[1]<<"\n"<<smallestEle<<" "<<secondSmallEle<<"\n";
+        // cout<<firstMax<<" "<<secondMax<<" "<<thirdMax<<"\n";
+        // cout<<arr[n-1]<<" "<<arr[n-2]<<" "<<arr[n-3]<<"\n";
+        
+        return max((firstMax*secondMax*thirdMax),(smallestEle*secondSmallEle*firstMax));
     	  
     	  
     	
