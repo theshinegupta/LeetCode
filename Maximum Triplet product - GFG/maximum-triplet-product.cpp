@@ -13,11 +13,11 @@ class Solution {
     long long maxTripletProduct(long long arr[], int n)
     {
         
-        if(n==3)
-        {
-            return arr[0]*arr[1]*arr[2];
+        // if(n==3)
+        // {
+        //     return arr[0]*arr[1]*arr[2];
             
-        }
+        // }
         
         long long firstMax=arr[0];
         long long secondMax=INT_MIN+10;
