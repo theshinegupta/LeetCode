@@ -47,15 +47,8 @@ class Solution
         
         for(int i=0;i<n;i++)
         {
-            if(jobDeadLine[arr[i].dead]==-1)
-            {
-                jobDeadLine[arr[i].dead]=arr[i].id;
-                maxProfit+=arr[i].profit;
-                numberOfJobs++;
-            }
-            else
-            {
-                for(int j=arr[i].dead;j>0;j--)
+           
+             for(int j=arr[i].dead;j>0;j--)
                 {
                     if(jobDeadLine[j]==-1)
                     {
@@ -66,8 +59,8 @@ class Solution
                     }
                 }
                 
-                
-            }
+               
+            
             
         }
        
