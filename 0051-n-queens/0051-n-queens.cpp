@@ -1,114 +1,103 @@
 class Solution {
 public:
+     vector<vector<string>> res;
     vector<vector<string>> solveNQueens(int n) {
         
-        vector<vector<char>> grid(n,vector<char>(n,'.'));
-        vector<vector<string>> v;
-        vector<string> currRes;
+        vector<string> chessBoard;
         
         string s="";
         
         for(int i=0;i<n;i++)
-        {
-            s+='.';
-        }
+            s.push_back('.');
         
+        // cout<<s<<" ";
+     
         for(int i=0;i<n;i++)
         {
-            currRes.push_back(s);
+          chessBoard.push_back(s);
         }
-      
-        int count=0;
-        shineSolve(0,grid,count,n,v,currRes);
-        return v;
+        
+        // for(auto x: chessBoard)
+        // {
+        //     cout<<x<<" " ;
+        // }
+        shineSolve(chessBoard,n,0);       
+        return res;
+        
         
     }
-
-    bool shineSolve(int currRow,vector<vector<char>>& grid,int& count,int n,vector<vector<string>>& v,vector<string> currRes)
+    
+void shineSolve(vector<string>& chessBoard,int n,int currRow)
 {
     if(currRow>=n)
     {
-        return true;
-    } 
-    
-    for(int i=0;i<n;i++)
-    {
-        if(isValid(currRow,i,grid,n))
-        {
-            grid[currRow][i]='Q';
-            currRes[currRow][i]='Q';
-            
-            if(shineSolve(currRow+1,grid,count,n,v,currRes))
-            { 
-              v.push_back(currRes);
-            }
-            
-            currRes[currRow][i]='.';
-            grid[currRow][i]='.';
-        }
+        res.emplace_back(chessBoard);
+        return;
     }
     
-    return false;
+    for(int i=0;i<n;i++)
+    {
+        if(isRowValid(currRow,n,chessBoard) && isColValid(i,n,chessBoard) && isLeftDiagonal(currRow,i,chessBoard) && isRightDiagonal(currRow,i,chessBoard)  )
+        {   
+            chessBoard[currRow][i]='Q';
+            shineSolve(chessBoard,n,currRow+1);
+            chessBoard[currRow][i]='.';
+         
+         }
+        
+    }
 }
     
-bool isValid(int currRow,int currCol,vector<vector<char>>& grid,int n)
-{
-    return (isRowValid(currRow,currCol,grid,n) && isColValid(currRow,currCol,grid,n) && isLeftDiagValid(currRow,currCol,grid,n) && isRightDiagValid(currRow,currCol,grid,n));
-}
-    
-    
-bool isRowValid(int currRow,int currCol,vector<vector<char>>& grid,int n)
+bool  isRowValid(int currRow,int n,vector<string>& chessBoard)
 {
     for(int i=0;i<n;i++)
     {
-        if(grid[currRow][i]=='Q')
+        if(chessBoard[currRow][i]=='Q')
             return false;
     }
     
     return true;
 }
     
-bool isColValid(int currRow,int currCol,vector<vector<char>>& grid,int n)
+bool  isColValid(int currCol,int n,vector<string>& chessBoard)
 {
     for(int i=0;i<n;i++)
     {
-        if(grid[i][currCol]=='Q')
+        if(chessBoard[i][currCol]=='Q')
             return false;
     }
     
     return true;
 }
     
-    
-bool isLeftDiagValid(int currRow,int currCol,vector<vector<char>>& grid,int n)
+bool  isLeftDiagonal(int currRow ,int currCol,vector<string>& chessBoard)
 {
-    int i=currRow-1;
-    int j=currCol-1;
-   while(i>=0 && j>=0)
-   {
-       if(grid[i][j]=='Q')
-           return false;
-       
-       i--;
-       j--;
-   }
+    while(currRow>=0 && currCol>=0)
+    {
+        if(chessBoard[currRow][currCol]=='Q')
+            return false;
+        
+        currRow--;
+        currCol--;
+    }
     
     return true;
 }
     
-bool isRightDiagValid(int currRow,int currCol,vector<vector<char>>& grid,int n)
+
+    
+bool  isRightDiagonal(int currRow ,int currCol,vector<string>& chessBoard)
 {
-    int i=currRow-1;
-    int j=currCol+1;
-   while(i>=0 && j<n)
-   {
-       if(grid[i][j]=='Q')
-           return false;
-       
-       i--;
-       j++;
-   }
+    while(currRow>=0 && currCol<chessBoard[0].size())
+    {
+        if(chessBoard[currRow][currCol]=='Q')
+            return false;
+        
+        currRow--;
+        currCol++;
+    }
     
     return true;
 }
+    
 };
