@@ -10,7 +10,7 @@ public:
         
     }
     
-void shineSolve(string& s ,int start,int end,vector<string> currStr)
+void shineSolve(string& s ,int start,int end,vector<string>& currStr)
 {
     if(start>end)
     {
