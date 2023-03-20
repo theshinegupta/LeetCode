@@ -1,31 +1,27 @@
 class Solution {
 public:
+    
+    vector<vector<int>> res;
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>> v;
-        shineSolve(0,v,nums);
-        v.push_back(nums);
-        return v;
         
+        shineSolve(nums,0);
+        return res;
     }
     
-void shineSolve(int currPos,vector<vector<int>>&v ,vector<int> currConfig)
+void shineSolve(vector<int>& nums,int startIdx)
 {
-    if(currPos>=currConfig.size()-1)
+    if(startIdx>=nums.size())
     {
+        res.emplace_back(nums);
         return;
     }
     
-    for(int i=currPos;i<currConfig.size();i++)
-    {
-        for(int j=i+1;j<currConfig.size();j++)
-        {
-            swap(currConfig[i],currConfig[j]);
-            v.push_back(currConfig);
-            
-            shineSolve(i+1,v,currConfig);
-            swap(currConfig[i],currConfig[j]);
-            
-        }
+    for(int i=startIdx;i<nums.size();i++){
+        
+        swap(nums[startIdx],nums[i]);
+        shineSolve(nums,startIdx+1);
+        swap(nums[startIdx],nums[i]);
+        
     }
 }
 };
