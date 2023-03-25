@@ -59,10 +59,10 @@ void shineSolve(vector<vector<char>>& board,int totalRow,int totalCol,int currRo
     {
             for(int i=1;i<=9;i++)
             {
-                    char currChar=i+48;
+
                     
 
-                    if(isValid(board,currRow,currCol,currChar))
+                    if(isRowValid(board,currRow,i) && isColValid(board,currCol,i) && isGridValid(board,currRow,currCol,i))
                     {
                         char val=i+48;
                         board[currRow][currCol]=val;
@@ -122,9 +122,9 @@ bool isGridValid(vector<vector<char>>& board,int currRow,int currCol,int currVal
      int startCol=currCol-(currCol%3);
     
     
-    for(int i=startRow;i<currRow+3;i++)
+    for(int i=startRow;i<startRow+3;i++)
     {
-        for(int j=startCol;j<currCol+3;j++)
+        for(int j=startCol;j<startCol+3;j++)
         {
             if(board[i][j]==val)
                 return false;
@@ -136,18 +136,5 @@ bool isGridValid(vector<vector<char>>& board,int currRow,int currCol,int currVal
 }
     
     
-bool isValid(vector<vector<char>>& board, int row, int col, char ch){
-        for(int i=0; i<9; i++){
-            if(board[i][col] == ch){
-                return false;
-            }
-            if(board[row][i] == ch){
-                return false;
-            }
-            if(board[3*(row/3)+i/3][3*(col/3)+i%3] == ch){
-                return false;
-            }
-        }
-        return true;
-    }
+    
 };
