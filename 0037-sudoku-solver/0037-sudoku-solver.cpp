@@ -1,120 +1,153 @@
 class Solution {
 public:
+    bool flag=false;
+    int count=0;
     void solveSudoku(vector<vector<char>>& board) {
         
-         char c=board[1][5];
-       
         
-        solve(0,0,board);
+        shineSolve(board,9,9,0,0);
         
-       
+        // cout<<count<<" ";
+
         
-        return ;
     }
     
-bool solve(int currRow,int currCol,vector<vector<char>>& board)
+void shineSolve(vector<vector<char>>& board,int totalRow,int totalCol,int currRow,int currCol)
 {
-    
-    if(currRow==9)
-    {return true;}
 
     
-    int nextRowIdx=-1;
-    int nextColIdx=-1;
-    
-    if(currCol+1<9)
+
+    if(currRow>=9)
     {
-        nextRowIdx=currRow;
-        nextColIdx=currCol+1;
+        
+        // cout<<"here \n";
+        flag=true;
+        return;
+        
+//         for(int i=0;i<9;i++)
+//         {
+//             for(int j=0;j<9;j++)
+//             {
+//                 cout<<board[i][j]<<" ";
+//             }
+            
+//             cout<<"\n";
+//         }
     }
+    
+    
+   
+     
+    if(board[currRow][currCol]!='.')
+             {
+                     
+                  
+                    if(currCol==8)
+                    shineSolve(board,totalRow,totalCol,currRow+1,0);
+                    else
+                    shineSolve(board,totalRow,totalCol,currRow,currCol+1);
+        
+                   
+                    if(flag==true)
+                        return;
+
+                    
+            }
+             
+    
     else
     {
-        nextRowIdx=currRow+1;
-        nextColIdx=0;
-    }
-    
-    
-    if(board[currRow][currCol]!='.')
-    {
-             return solve(nextRowIdx,nextColIdx,board);
-    }
-    
-        for(int i=1;i<=9;i++)
-        {
-            if(isValid(i+'0',currRow,currCol,board))
+            for(int i=1;i<=9;i++)
             {
-                board[currRow][currCol]=i+'0';
-                 
-                 if(solve(nextRowIdx,nextColIdx,board))
-                 {
-                     return true;
-                 }
-                
-                 board[currRow][currCol]='.';
-                
-                
+                    char currChar=i+48;
+                    
+
+                    if(isValid(board,currRow,currCol,currChar))
+                    {
+                        char val=i+48;
+                        board[currRow][currCol]=val;
+                        // cout<<currRow<<" "<<currCol<<" "<<val<<" "<<i<<"\n";                        
+                        if(currCol==8)
+                        { shineSolve(board,totalRow,totalCol,currRow+1,0);}
+                        else
+                        {shineSolve(board,totalRow,totalCol,currRow,currCol+1);}
+
+                        if(flag==true)
+                        return;
+
+                        board[currRow][currCol]='.';
+                        
+
+                    }
+
+
             }
-        }
-        
-        return false;
-        
+
+    }
+    
 }
-    bool isValid(char c,int currRow,int currCol,vector<vector<char>>& board)
+    
+bool isRowValid(vector<vector<char>>& board,int currRow,int currVal)
+{
+    
+    char val=currVal+48;
+    
+    for(int p=0;p<board[0].size();p++)
     {
-        return (isRowValid(c,currRow,currCol,board) && iscolValid(c,currRow,currCol,board) && isSubGridValid(c,currRow,currCol,board));
+        if(board[currRow][p]==val)
+            return false;
     }
     
+    return true;
+}
     
-    bool isRowValid(char c,int currRow,int currCol,vector<vector<char>>& board)
+bool isColValid(vector<vector<char>>& board,int currCol,int currVal)
+{
+    char val=currVal+48;
+    
+    for(int p=0;p<board.size();p++)
     {
-        
-        for(int i=0;i<9;i++)
+        if(board[p][currCol]==val)
+            return false;
+    }
+    
+    return true;
+}
+    
+bool isGridValid(vector<vector<char>>& board,int currRow,int currCol,int currVal)
+{
+     char val=currVal+48;
+   
+     int startRow=currRow-(currRow%3);
+     int startCol=currCol-(currCol%3);
+    
+    
+    for(int i=startRow;i<currRow+3;i++)
+    {
+        for(int j=startCol;j<currCol+3;j++)
         {
-            if(board[currRow][i]==c)
+            if(board[i][j]==val)
                 return false;
         }
-        
-        return true;
-        
     }
     
     
-    bool iscolValid(char c,int currRow,int currCol,vector<vector<char>>& board)
-    {
-        
-        for(int i=0;i<9;i++)
-        {
-            if(board[i][currCol]==c)
+    return true;
+}
+    
+    
+bool isValid(vector<vector<char>>& board, int row, int col, char ch){
+        for(int i=0; i<9; i++){
+            if(board[i][col] == ch){
                 return false;
-        }
-        
-        return true;
-        
-    }
-    
-    bool isSubGridValid(char c,int currRow,int currCol,vector<vector<char>>& board)
-    {
-        
-        int startRowIdx=3*(currRow/3);
-        int startColIdx=3*(currCol/3);
-        
-        for(int i=startRowIdx;i<=startRowIdx+2;i++)
-        {
-            for(int j=startColIdx;j<=startColIdx+2;j++)
-            {
-                if(board[i][j]==c)
-                    return false;
+            }
+            if(board[row][i] == ch){
+                return false;
+            }
+            if(board[3*(row/3)+i/3][3*(col/3)+i%3] == ch){
+                return false;
             }
         }
-        
-        
         return true;
-        
     }
-    
-    
-    
-    
-    
-    
 };
