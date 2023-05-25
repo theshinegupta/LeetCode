@@ -95,77 +95,55 @@ Node* buildTree(string str)
 
 class Solution {
   public:
+     map<int,int> mp;
     vector <int> bottomView(Node *root) {
-        map<int,int> mp;
-     stack<pair<int,int>> st;
-     vector<int> res;
-     
-     if(root==NULL)
-      return res;
-      
-     queue<pair<int,Node*>> q;
-     q.push({0,root});
-     st.push({0,root->data});
-     q.push({10000000,NULL});
-     
-     while(!q.empty())
-     {
-         Node* temp=q.front().second;
-         int currIdx=q.front().first;
-         q.pop();
-         
-        //  if(mp.find(currIdx)==mp.end() && temp!=NULL)
-        //  {
-        //      mp.insert({currIdx,temp->data});
-        //  }
-        
-        if(temp!=NULL)
-         st.push({currIdx,temp->data});
-         
-         if(temp!=NULL)
-         {
-             if(temp->left!=NULL)
-               q.push({currIdx-1,temp->left});
-               
-             if(temp->right!=NULL)
-               q.push({currIdx+1,temp->right});
-         }
-         else
-         {
-             
-            if(q.empty())
-            break;
-            q.push({10000000,NULL});
-            
-         }
+       
+       queue<pair<Node* ,int>> q;
+       vector<int>v;
+       
+       q.push({root,0});
+       
+       while(!q.empty()){
            
-         
-         
-     }
-     
-     while(!st.empty())
-     {
-        int currIdx=st.top().first;
-        int temp=st.top().second;
+           
+           pair<Node*,int> temp=q.front();
+           
+           mp[temp.second]=temp.first->data;
+           q.pop();
+           if(temp.first->left) 
+              q.push({temp.first->left,temp.second-1});
+           
+           if(temp.first->right)   
+           q.push({temp.first->right,temp.second+1});
+           
+           
+       }
+       
+       for(auto itr=mp.begin();itr!=mp.end();itr++)
+       {
+           v.emplace_back(itr->second);
+       }
+       
+       return v;
+       
+       
+       
         
-        if(mp.find(currIdx)==mp.end())
-         {
-             mp.insert({currIdx,temp});
-         }
-         
-         st.pop();
-         
-     }
-     
-    for(auto itr=mp.begin();itr!=mp.end();itr++)
-    {
-        int temp=itr->second;
-        res.push_back(temp);
+        
+       
+       
     }
-     
-     
-     return res;
-    }
+    
+void preorder(Node* root,int idx)
+{
+    if(root==NULL)
+       return;
+       
+      mp[idx]=root->data;
+    preorder(root->left,idx-1);
+  
+    preorder(root->right,idx+1);
+}
 };
 
 //{ Driver Code Starts.
