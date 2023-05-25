@@ -102,62 +102,38 @@ class Solution
     public:
     //Function to return a list of nodes visible from the top view 
     //from left to right in Binary Tree.
+    map<int,int> mp;
     vector<int> topView(Node *root)
     {
-     map<int,int> mp;
-     vector<int> res;
-     
-     if(root==NULL)
-      return res;
-      
-     queue<pair<int,Node*>> q;
-     q.push({0,root});
-     q.push({10000000,NULL});
-     
-     while(!q.empty())
-     {
-         Node* temp=q.front().second;
-         int currIdx=q.front().first;
-         q.pop();
-         
-         if(mp.find(currIdx)==mp.end() && temp!=NULL)
-         {
-             mp.insert({currIdx,temp->data});
-         }
-         
-         if(temp!=NULL)
-         {
-             if(temp->left!=NULL)
-               q.push({currIdx-1,temp->left});
-               
-             if(temp->right!=NULL)
-               q.push({currIdx+1,temp->right});
-         }
-         else
-         {
-             
-            if(q.empty())
-            break;
-            q.push({10000000,NULL});
-            
-         }
+        queue<pair<Node* ,int>> q;
+        vector<int>v;
+       
+       q.push({root,0});
+       
+       while(!q.empty()){
            
-         
-         
-     }
-     
-     
-    for(auto itr=mp.begin();itr!=mp.end();itr++)
-    {
-        int temp=itr->second;
-        res.push_back(temp);
-    }
-     
-     
-     return res;
-     
-      
-      
+           
+           pair<Node*,int> temp=q.front();
+           
+           if(mp.find(temp.second)==mp.end())
+               mp[temp.second]=temp.first->data;
+           
+           q.pop();
+           if(temp.first->left) 
+              q.push({temp.first->left,temp.second-1});
+           
+           if(temp.first->right)   
+           q.push({temp.first->right,temp.second+1});
+           
+           
+       }
+       
+       for(auto itr=mp.begin();itr!=mp.end();itr++)
+       {
+           v.emplace_back(itr->second);
+       }
+       
+       return v;
     }
 
 };
