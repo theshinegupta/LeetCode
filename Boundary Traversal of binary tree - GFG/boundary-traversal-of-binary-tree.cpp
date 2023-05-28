@@ -107,90 +107,72 @@ class Solution {
 public:
     vector <int> boundary(Node *root)
     {
-        vector<int> res;
-        if(root==NULL)
-         return res;
-    
-       queue<Node*> q;
-       stack<int> st;
-      
-       res.push_back(root->data);
-       
-       if(root->left!=NULL)
-        q.push(root->left);
+        vector<int> leftVal,rightVal,leafVal,res;
         
-       while(!q.empty())
-       {
-           Node* temp=q.front();
-           q.pop();
-           res.push_back(temp->data);
-           
-           if(temp->left!=NULL)
-           {
-               q.push(temp->left);
-               continue;
-           }
-           
-           if(temp->right!=NULL)
-           {
-               q.push(temp->right);
-           }
-           
-       }
-       
-       if(res.size()>1)
-       res.pop_back();
-       
-       if(root->left!=NULL || root->right!=NULL)
-       preOrder(root,res);
-       
-      if(root->right!=NULL)
-      q.push(root->right);
-       
-      while(!q.empty())
-      {
-          Node* temp=q.front();
-          q.pop();
-          st.push(temp->data);
-           
-          if(temp->right!=NULL)
-          {
-              q.push(temp->right);
-              continue;
-          }
-           
-          if(temp->left!=NULL)
-          {
-              q.push(temp->left);
-          }
-      }
-       
-      if(!st.empty()) 
-        st.pop();
-      
-      while(!st.empty())
-      {
-          int temp=st.top();
-          res.push_back(temp);
-          st.pop();
-      }
-       
-       return res;
-       
         
+        
+        Node* ptr=root->left;
+        leftVal.emplace_back(root->data);
+        
+        if(!root->left && !root->right)
+           return leftVal;
+     
+        
+        while(ptr && (ptr->left || ptr->right) )
+         {
+             leftVal.emplace_back(ptr->data);
+             
+             if(ptr->left)
+                ptr=ptr->left;
+             else
+                ptr=ptr->right;
+            
+         }
+         
+        ptr=root->right;
+        
+        while(ptr && (ptr->left || ptr->right) )
+         {
+             rightVal.emplace_back(ptr->data);
+             
+             if(ptr->right)
+                ptr=ptr->right;
+             else
+                ptr=ptr->left;
+         }
+         
+         reverse(rightVal.begin(),rightVal.end());
+         
+         preorder(root,leafVal);
+         
+        
+        for(auto x: leftVal)
+          res.emplace_back(x);
+        
+        for(auto x: leafVal)
+          res.emplace_back(x);
+          
+        for(auto x: rightVal)
+          res.emplace_back(x);
+        
+        
+        return res;
         
     }
     
     
-void preOrder(Node* root,vector<int>& res)
+void preorder(Node* root,vector<int>& leafVal)
 {
-    if(root==NULL)
+    if(!root)
       return;
-    if(root!=NULL && root->left==NULL && root->right==NULL)
-       res.push_back(root->data);
       
-    preOrder(root->left,res);
-    preOrder(root->right,res);
+     
+    if(!root->left && !root->right)
+       leafVal.emplace_back(root->data);
+       
+    preorder(root->left,leafVal);
+    preorder(root->right,leafVal);
+    
 }
 };
 
