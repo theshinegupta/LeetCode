@@ -5,58 +5,45 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
     public:
-    int res=0;
+    
+    int res=INT_MIN;
     int dp[1001][1001];
     int longestCommonSubstr (string S1, string S2, int n, int m)
     {
         memset(dp,-1,sizeof(dp));
-         shineSolve(S1,S2,n-1,m-1);
-         return res;
+        shineSolve(S1,S2,0,0);
+        return res==INT_MIN?0:res;
+    
     }
-
-int shineSolve(string& s1,string& s2,int n,int m)
+    
+int shineSolve(string& S1, string& S2, int idx1, int idx2)
 {
-    if(n<0 || m<0)
+    if(idx1>=S1.size() || idx2>=S2.size())
+      return 0;
+     
+     
+    if(dp[idx1][idx2]!=-1)
+      {
+        return dp[idx1][idx2];
+          
+      }
+       
+    int temp=0;
+    if(S1[idx1]==S2[idx2])
     {
-        
-        return 0;
+        temp=1+shineSolve(S1,S2,idx1+1,idx2+1);
+        res=max(temp,res);
     }
     
-    if(dp[n][m]!=-1)
-      return dp[n][m];
     
-    shineSolve(s1,s2,n-1,m);
-    shineSolve(s1,s2,n,m-1);
-    
-    
-    int temp1=0;
-    
-    if(s1[n]==s2[m])
-    {
-        temp1= 1+shineSolve(s1,s2,n-1,m-1);
-        res=max(res,temp1);
-        return dp[n][m]=temp1;
-    
-    }
-    
-    return dp[n][m]=0;
-    
-    
-    
-    
-     
-    
-   
-   
-     
-    
-    
-    
-  
-    
-   
-}
+    shineSolve(S1,S2,idx1,idx2+1);
+    shineSolve(S1,S2,idx1+1,idx2);
 
+    
+    return dp[idx1][idx2]=temp;
+    
+    
+}
 };
 
 //{ Driver Code Starts.
