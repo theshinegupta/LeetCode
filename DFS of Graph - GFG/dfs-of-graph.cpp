@@ -7,29 +7,30 @@ class Solution {
   public:
     // Function to return a list containing the DFS traversal of the graph.
     vector<int> dfsOfGraph(int V, vector<int> adj[]) {
-       vector<int> ans;
-       bool isVisited[V];
-       
-       memset(isVisited,false,sizeof(isVisited));
-       
-       dfs(0,adj,ans,V,isVisited);
-       return ans;
-    }
-
-void dfs(int currVrtx,vector<int> adj[],vector<int>& ans,int V,bool isVisited[])
-{
-    if(isVisited[currVrtx])
-    {
-        return;
-    }
-    
-    isVisited[currVrtx]=true;
-    ans.push_back(currVrtx);
-    
-    for(int i=0;i<adj[currVrtx].size();i++)
-    {
         
-        dfs(adj[currVrtx][i],adj,ans,V,isVisited);
+        vector<int> res;
+        res.push_back(0);
+     
+        vector<int> isVisited(V,-1);
+        isVisited[0]=1;
+        
+        shineSolve(adj,isVisited,res,0);
+        return res;
+    }
+    
+void shineSolve(vector<int> adj[],vector<int>& isVisited, vector<int>& res,int src)
+{
+    
+    for(int i=0;i<adj[src].size();i++)
+    {
+        if(isVisited[adj[src][i]]==-1)
+        {
+            res.push_back(adj[src][i]);
+            isVisited[adj[src][i]]=1;
+            
+            shineSolve(adj,isVisited,res,adj[src][i]);
+            
+        }
     }
     
 }
