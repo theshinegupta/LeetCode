@@ -21,18 +21,19 @@ class Solution
     //from the source vertex S.
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
-       priority_queue<pair<int,int>,vector<pair<int,int>>,compare> pq;
-        vector<int> res(V,0);
+    //   priority_queue<pair<int,int>,vector<pair<int,int>>,compare> pq;
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+    vector<int> res(V,0);
     vector<int> isVisited(V,-1);
     
     // res[S]=0;
-    pq.push({S,0});
+    pq.push({0,S});
     
     while(pq.size())
     {
         // pair<int,int> temp=q.front();
-        int currVrtx=pq.top().first;
-        int currCost=pq.top().second;
+        int currVrtx=pq.top().second;
+        int currCost=pq.top().first;
          pq.pop();
          
         //  cout<<currVrtx<<" "<<currCost<<"\n";
@@ -49,7 +50,7 @@ class Solution
         {
             if(isVisited[adj[currVrtx][i][0]]==-1)
             {
-                pq.push({adj[currVrtx][i][0],currCost+adj[currVrtx][i][1]});
+                pq.push({currCost+adj[currVrtx][i][1],adj[currVrtx][i][0]});
             }
         }
         
