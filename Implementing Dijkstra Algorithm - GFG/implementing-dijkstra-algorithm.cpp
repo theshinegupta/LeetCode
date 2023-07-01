@@ -3,6 +3,17 @@
 using namespace std;
 
 // } Driver Code Ends
+
+class compare{
+    public:
+    bool operator() (pair<int,int> a,pair<int,int> b)
+{
+    return a.second>b.second;
+}
+    
+};
+
+
 class Solution
 {
 	public:
@@ -10,42 +21,46 @@ class Solution
     //from the source vertex S.
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
-      vector<int> distance(V,-1);
-   
-       
-      priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>> > q;
-      
-      
-      q.push({0,{S,-1}});
-      
-      while(!q.empty())
-      {
-          pair<int,int> temp=q.top().second;
-          int currVrtx=temp.first;
-          int parent=temp.second;
-          int currCost=q.top().first;
-          
-          q.pop();
-          
-          if(distance[currVrtx]==-1)
-          {
-              distance[currVrtx]=currCost;
-              
-              for(int i=0;i<adj[currVrtx].size();i++)
-              {
-                  if(adj[currVrtx][i][0]!=parent)
-                  {
-                      q.push({currCost+adj[currVrtx][i][1],{adj[currVrtx][i][0],currVrtx}});
-                  }
-              }
-          }
-      }
-       
+       priority_queue<pair<int,int>,vector<pair<int,int>>,compare> pq;
+        vector<int> res(V,0);
+    vector<int> isVisited(V,-1);
     
+    // res[S]=0;
+    pq.push({S,0});
+    
+    while(pq.size())
+    {
+        // pair<int,int> temp=q.front();
+        int currVrtx=pq.top().first;
+        int currCost=pq.top().second;
+         pq.pop();
+         
+        //  cout<<currVrtx<<" "<<currCost<<"\n";
+         if(isVisited[currVrtx]!=-1)
+         {
+             continue;
+         }
+        
+        isVisited[currVrtx]=1;
+        res[currVrtx]=currCost;
        
-       return distance;
-       
+        
+        for(int i=0;i<adj[currVrtx].size();i++)
+        {
+            if(isVisited[adj[currVrtx][i][0]]==-1)
+            {
+                pq.push({adj[currVrtx][i][0],currCost+adj[currVrtx][i][1]});
+            }
+        }
+        
     }
+    
+    
+    return res;
+    }
+    
+    
+   
 };
 
 
