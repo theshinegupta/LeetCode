@@ -9,41 +9,51 @@ class Solution
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	     vector<int>help(V,0),res;
-
-     queue<int>q;
-
-     for(int i=0;i<V;++i){
-
-         for(int j:adj[i]) help[j]++;
-
-     }
-
-     for(int i=0;i<V;++i){
-
-         if(help[i]==0) q.push(i);
-
-     }
-
-     while(!q.empty()){
-
-         int curr=q.front();
-
-         q.pop();
-
-         for(auto it:adj[curr]){
-
-             help[it]--;
-
-             if(help[it]==0) q.push(it);
-
-         }
-
-         res.push_back(curr);
-
-     }
-
-     return res;
+	    vector<int> inDegree(V,0),res;
+	   // vector<int> isVisited(V,-1);
+	    
+	    for(int i=0;i<V;i++)
+	    {
+	        for(auto x: adj[i])
+	             inDegree[x]++;
+	    }
+	    
+	    queue<int> q;
+	    
+	    
+	    for(int i=0;i<V;i++)
+	    {
+	        if(inDegree[i]==0)
+	        {
+	            q.push(i);
+	        }
+	        
+	      
+	        
+	    }
+	    
+	    
+	    while(q.size())
+	    {
+	        int currVertex=q.front();
+	        q.pop();
+	        
+	        res.emplace_back(currVertex);
+	        
+	       // isVisited[currVrtx]=1;
+	        
+	        for(int i=0;i<adj[currVertex].size();i++)
+	        {
+	            inDegree[adj[currVertex][i]]--;
+	            
+	            if(inDegree[adj[currVertex][i]]==0)
+	               q.push(adj[currVertex][i]);
+	        }
+	        
+	        
+	    }
+	    
+	    return res;
 	}
 };
 
